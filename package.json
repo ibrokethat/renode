@@ -1,0 +1,28 @@
+{
+  "name": "renode",
+  "description": "sequencer app",
+  "version": "0.0.1",
+  "author": "si@ibrokethat.com",
+  "contributors": [
+    { "name": "Simon Jefford", "email": "si@ibrokethat.com" }
+  ],
+  "dependencies": {
+    "Object": "git+ssh://git@github.com:ibrokethat/Object",
+    "Base": "git+ssh://git@github.com:ibrokethat/Base"
+  },
+  "devDependencies": {
+    "mocha": "1.2.x",
+    "sinon": "1.3.x"
+  },
+  "keywords": ["ibrokethat", "renode", "sequencer"],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ibrokethat/renode"
+  },
+  "main": "server.js",
+  "scripts": {
+    "prepublish" : "npm prune",
+    "test": "mocha -u bdd"
+  },
+  "engines": { "node": "*" }
+}

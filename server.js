@@ -16,6 +16,7 @@ require("Object");
 // var service        = require("lib/service");
 // var EventMachine   = require("lib/EventMachine");
 var SequencerModel = require("./models/SequencerModel");
+var sequencerCommands = require("./commands/sequencer");
 var song           = require("./song");
 var system         = require("system");
 var io, sequencer, server, file, sync;
@@ -85,24 +86,53 @@ var io, sequencer, server, file, sync;
 // service.register("sync", sync);
 // service.register("midi", midi);
 
+//  eventually
+
+// socket.on("open/song", function (data.song) {
+
+//   couch.db.get(data.song, function (song) {
+
+//     socket.emit("song/opened", {
+//       song: song
+//     })
+
+//   });
+
+// });
+
 sequencer = SequencerModel.spawn(song);
 
-var inspect = require("util").inspect;
-// consoe.log(inspect(sequencer, true, null, true));
-
-sequencer.on("locked", function() {
-  console.log(sequencer.locked);
-});
-
-system.on("sync", function(data) {
-  console.log(inspect(data, true, null, true));
-});
+sequencerCommands.load(sequencer);
 
 setTimeout(function () {
-  sequencer.edit = true;
-}, 1000);
+
+  sequencer.playing = true;
+
+}, 200);
 
 
 setTimeout(function () {
-  sequencer.edit = false;
-}, 2000);
+
+  sequencer.tracks.items[0].nextPatternId = sequencer.tracks.items[0].patterns.items[1].id;
+
+}, 7500);
+
+// var inspect = require("util").inspect;
+// // console.log(inspect(sequencer, true, null, true));
+
+// sequencer.on("locked", function() {
+//   console.log(sequencer.locked);
+// });
+
+// system.on("sync", function(data) {
+//   console.log(inspect(data, true, null, true));
+// });
+
+// setTimeout(function () {
+//   sequencer.edit = true;
+// }, 1000);
+
+
+// setTimeout(function () {
+//   sequencer.edit = false;
+// }, 2000);

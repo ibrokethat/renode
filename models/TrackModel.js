@@ -61,27 +61,8 @@ module.exports = Base.extend({
 
 
   EDIT_EVENT: {
-    value: "edit/track",
+    value: "edit-track",
     configurable: false
-  },
-
-
-  /**
-    @description  constructor
-  */
-  __init__: {
-
-    value: function(data) {
-
-      Base.__init__.call(this, data);
-
-      if (this.patterns.length) {
-
-        this.activePatternId = this.nextPatternId = this.patterns.items[0].id;
-
-      }
-
-    }
   }
 
 });

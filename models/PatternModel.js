@@ -21,12 +21,12 @@ module.exports = Base.extend({
     value: {
 
       currentStep: {
-        defaultValue : 1,
+        defaultValue : 0,
         type         : "number"
       },
 
-      stepCount: {
-        defaultValue : 128,
+      bars: {
+        defaultValue : 1,
         type         : "number"
       },
 
@@ -51,7 +51,7 @@ module.exports = Base.extend({
   },
 
   EDIT_EVENT: {
-    value: "edit/pattern",
+    value: "edit-pattern",
     configurable: false
   },
 

@@ -8,7 +8,10 @@
   ],
   "dependencies": {
     "Object": "git+ssh://git@github.com:ibrokethat/Object",
-    "Base": "git+ssh://git@github.com:ibrokethat/Base"
+    "Base": "git+ssh://git@github.com:ibrokethat/Base",
+    "async": "git+ssh://git@github.com:ibrokethat/async",
+    "func": "git+ssh://git@github.com:ibrokethat/func",
+    "uglify-js": "2.2.x"
   },
   "devDependencies": {
     "mocha": "1.2.x",

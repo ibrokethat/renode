@@ -58,7 +58,7 @@ module.exports = Base.extend({
   },
 
   EDIT_EVENT: {
-    value: "edit/sequencer",
+    value: "edit-sequencer",
     configurable: false
   }
 

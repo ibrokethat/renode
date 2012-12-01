@@ -31,7 +31,7 @@ module.exports = {
         {
           "bars": 1, // ((1-16) * 8) - 1
           "notes"    : [
-            {"start": 0, "key": 36, "velocity": 127, "duration": 1000},
+            {"start": 0, "key": 36, "velocity": 127, "duration": 120},
             {"start": 32, "key": 40, "velocity": 127, "duration": 120},
             {"start": 48, "key": 36, "velocity": 127, "duration": 120},
             {"start": 64, "key": 36, "velocity": 127, "duration": 120},
@@ -85,23 +85,23 @@ module.exports = {
         {
           "bars": 1,
           "notes"   : [
-            {"start": 0, "key": 36, "velocity": 127, "duration": 100},
-            {"start": 12, "key": 56, "velocity": 127, "duration": 100},
-            {"start": 32, "key": 56, "velocity": 127, "duration": 100},
-            {"start": 64, "key": 36, "velocity": 127, "duration": 100},
-            {"start": 96, "key": 66, "velocity": 127, "duration": 100}
+            // {"start": 0, "key": 36, "velocity": 127, "duration": 100},
+            // {"start": 12, "key": 56, "velocity": 127, "duration": 100},
+            // {"start": 32, "key": 56, "velocity": 127, "duration": 100},
+            // {"start": 64, "key": 36, "velocity": 127, "duration": 100},
+            // {"start": 96, "key": 66, "velocity": 127, "duration": 100}
           ]
         },
         {
           "bars": 1,
           "notes"   : [
-            {"start": 0, "key": 36, "velocity": 127, "duration": 100},
-            {"start": 12, "key": 56, "velocity": 127, "duration": 100},
-            {"start": 16, "key": 68, "velocity": 127, "duration": 100},
-            {"start": 24, "key": 68, "velocity": 127, "duration": 100},
-            {"start": 32, "key": 56, "velocity": 127, "duration": 100},
-            {"start": 64, "key": 36, "velocity": 127, "duration": 100},
-            {"start": 96, "key": 66, "velocity": 127, "duration": 100}
+            // {"start": 0, "key": 36, "velocity": 127, "duration": 100},
+            // {"start": 12, "key": 56, "velocity": 127, "duration": 100},
+            // {"start": 16, "key": 68, "velocity": 127, "duration": 100},
+            // {"start": 24, "key": 68, "velocity": 127, "duration": 100},
+            // {"start": 32, "key": 56, "velocity": 127, "duration": 100},
+            // {"start": 64, "key": 36, "velocity": 127, "duration": 100},
+            // {"start": 96, "key": 66, "velocity": 127, "duration": 100}
           ]
         }
       ]

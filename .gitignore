@@ -1,6 +1,2 @@
-/node_modules
-/htdocs/commands
-/htdocs/controllers
-/htdocs/models
-/htdocs/lib
-/htdocs/views
+node_modules
+htdocs

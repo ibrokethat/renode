@@ -15,14 +15,14 @@ exports["click:activate-pattern"] = partial(controller, function(e, track, patte
 
   track.nextPatternId = pattern.id;
 
-}));
+});
 
 
 exports["click:deactivate-pattern"] = partial(controller, function(e, track, pattern) {
 
   track.nextPatternId = -1;
 
-}));
+});
 
 
 exports["click:create-pattern"] = partial(controller, partial(createInCollection, Pattern, "patterns"));

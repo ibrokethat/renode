@@ -21,6 +21,10 @@ var song           = require("./song");
 var system         = require("system");
 var io, sequencer, server, file, sync;
 
+var path = require("path");
+
+console.log(path.resolve(".", "./models/SequencerModel"));
+
 
 //  set up the file server
 // file = new(nodeStatic.Server)("htdocs", {

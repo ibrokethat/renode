@@ -7,11 +7,22 @@
     { "name": "Simon Jefford", "email": "si@ibrokethat.com" }
   ],
   "dependencies": {
-    "Object": "git+ssh://git@github.com:ibrokethat/Object",
-    "Base": "git+ssh://git@github.com:ibrokethat/Base",
-    "async": "git+ssh://git@github.com:ibrokethat/async",
-    "func": "git+ssh://git@github.com:ibrokethat/func",
-    "uglify-js": "2.2.x"
+    "async"      : "git+ssh://git@github.com:ibrokethat/async",
+    "Base"       : "git+ssh://git@github.com:ibrokethat/Base",
+    "build"      : "git+ssh://git@github.com:ibrokethat/build",
+    "Collection" : "git+ssh://git@github.com:ibrokethat/Collection",
+    "controllers": "git+ssh://git@github.com:ibrokethat/Controllers",
+    "func"       : "git+ssh://git@github.com:ibrokethat/func",
+    "is"         : "git+ssh://git@github.com:ibrokethat/is",
+    "iter"       : "git+ssh://git@github.com:ibrokethat/iter",
+    "Object"     : "git+ssh://git@github.com:ibrokethat/Object",
+    "pipe"       : "git+ssh://git@github.com:ibrokethat/pipe",
+    "registry"   : "git+ssh://git@github.com:ibrokethat/registry",
+    "seq"        : "git+ssh://git@github.com:ibrokethat/seq",
+    "system"     : "git+ssh://git@github.com:ibrokethat/system",
+    "uuid"       : "git+ssh://git@github.com:ibrokethat/uuid",
+    "detective"  : "0.2.x",
+    "uglify-js"  : "2.2.x"
   },
   "devDependencies": {
     "mocha": "1.2.x",

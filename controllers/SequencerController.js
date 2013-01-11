@@ -1,5 +1,8 @@
 /*
+
   @desc   sequencer controller
+
+
 */
 var controllers          = require("controllers");
 var partial              = require("func").partial;
@@ -13,14 +16,14 @@ exports["click:play"] = partial(controller, function(e, sequencer) {
 
   sequencer.playing = true;
 
-}));
+});
 
 
 exports["click:stop"] = partial(controller, function(e, sequencer) {
 
   sequencer.playing = false;
 
-}));
+});
 
 
 exports["click:create-track"] = partial(controller, partial(createInCollection, Track, "tracks"));

@@ -11,7 +11,7 @@
     "Base"       : "git+ssh://git@github.com:ibrokethat/Base",
     "build"      : "git+ssh://git@github.com:ibrokethat/build",
     "Collection" : "git+ssh://git@github.com:ibrokethat/Collection",
-    "controllers": "git+ssh://git@github.com:ibrokethat/Controllers",
+    "controllers": "git+ssh://git@github.com:ibrokethat/controllers",
     "func"       : "git+ssh://git@github.com:ibrokethat/func",
     "is"         : "git+ssh://git@github.com:ibrokethat/is",
     "iter"       : "git+ssh://git@github.com:ibrokethat/iter",

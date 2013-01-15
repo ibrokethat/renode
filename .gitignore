@@ -1,2 +1,4 @@
-node_modules
-htdocs
+/node_modules
+/node_modules/*
+/htdocs
+/htdocs/*

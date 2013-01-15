@@ -332,6 +332,7 @@
       head = document.getElementsByTagName("head")[0];
       // load a module from the server
       load = function(moduleName) {
+        debugger
         if(modules[moduleName]) {
           return require(moduleName);
         }
@@ -364,6 +365,8 @@
 
     // initialise a module
     function define(moduleName, dependencies, def) {
+
+      debugger
 
       var exports, module;
 

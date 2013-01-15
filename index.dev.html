@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>renode</title>
+
+    <style>
+
+      html, body {
+        font-family: courier;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+
+      header * {
+        display: inline-block;
+        font-weight: normal;
+      }
+
+      /*  sequencer */
+
+      div.sequencer > div{
+        padding: 0 30px;
+      }
+
+
+      /*  info bar  */
+      div.info {
+        border-bottom: 1px solid #000;
+        height: 50px;
+      }
+
+      div.info > header * {
+        font-size: 16px;
+        padding-right: 10px;
+      }
+
+      /*  track */
+
+      div.track {
+        float: left;
+        width: 100px;
+        height: 100px;
+      }
+
+      div.track > header * {
+        font-size: 14px;
+        height: 30px;
+      }
+
+      div[data-has-many="tracks"] {
+/*        display: -webkit-flexbox;
+        display: flexbox;
+*/      }
+
+      /*  pattern */
+
+      div.pattern {
+        border: 1px solid #000;
+        border-radius: 5px;
+        height: 30px;
+        margin-bottom: 10px;
+        width: 60px;
+      }
+
+      div.pattern.playing {
+        border: 1px solid #666;
+        background-color: #000;
+      }
+
+      div.pattern.pending {
+        border: 1px solid #000;
+        background-color: #666;
+      }
+
+
+
+      /*  controls  */
+
+      div[data-has-many="controls"] {
+        border-top: 1px solid #000;
+        bottom: 0;
+        height: 50px;
+        position: fixed;
+        width: 100%;
+      }
+
+
+      div[data-has-many="controls"] a {
+        border-radius: 5px;
+        color: #fff;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        margin: 10px 20px 0 0;
+        text-align: center;
+        width: 60px;
+      }
+
+      div[data-has-many="controls"] a[data-control="play"] {
+        background-color: green;
+      }
+
+      div[data-has-many="controls"] a[data-control="stop"] {
+        background-color: red;
+      }
+
+
+    </style>
+
+    <script src="require.js"></script>
+    <!--script src="/socket.io/socket.io.js"></script-->
+  </head>
+  <body>
+    <script>
+
+      require("client");
+
+    </script>
+  </body>
+</html>

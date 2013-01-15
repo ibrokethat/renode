@@ -7,11 +7,9 @@ node_modules/controllers
 node_modules/func
 node_modules/is
 node_modules/iter
-node_modules/midi
 node_modules/Object
 node_modules/pipe
 node_modules/registry
 node_modules/seq
 node_modules/system
-node_modules/uglify-js
 node_modules/uuid

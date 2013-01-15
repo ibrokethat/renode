@@ -23,7 +23,8 @@
     "uuid"       : "git+ssh://git@github.com:ibrokethat/uuid",
     "detective"  : "0.2.x",
     "uglify-js"  : "2.2.x",
-    "node-static": "0.6.x"
+    "node-static": "0.6.x",
+    "midi"       : "0.6.x"
   },
   "devDependencies": {
     "mocha": "1.2.x",

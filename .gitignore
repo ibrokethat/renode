@@ -1,15 +1,1 @@
 htdocs
-node_modules/Base
-node_modules/async
-node_modules/build
-node_modules/Collection
-node_modules/controllers
-node_modules/func
-node_modules/is
-node_modules/iter
-node_modules/Object
-node_modules/pipe
-node_modules/registry
-node_modules/seq
-node_modules/system
-node_modules/uuid

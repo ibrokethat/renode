@@ -22,9 +22,9 @@
     "system"     : "git+ssh://git@github.com:ibrokethat/system",
     "uuid"       : "git+ssh://git@github.com:ibrokethat/uuid",
     "detective"  : "0.2.x",
-    "uglify-js"  : "2.2.x",
+    "midi"       : "0.6.x",
     "node-static": "0.6.x",
-    "midi"       : "0.6.x"
+    "uglify-js"  : "2.2.x"
   },
   "devDependencies": {
     "mocha": "1.2.x",
@@ -33,12 +33,12 @@
   "keywords": ["ibrokethat", "renode", "sequencer"],
   "repository": {
     "type": "git",
-    "url": "git@github.com:ibrokethat/renode"
+    "url" : "git@github.com:ibrokethat/renode"
   },
   "main": "server.js",
   "scripts": {
-    "prepublish" : "npm prune",
-    "test": "mocha -u bdd"
+    "prepublish": "npm prune",
+    "test"      : "mocha -u bdd"
   },
   "engines": { "node": "*" }
 }

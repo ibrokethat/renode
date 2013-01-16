@@ -6,11 +6,15 @@
 require("Object");
 
 var SequencerModel = require("./models/SequencerModel");
-var sequencerComponent = require("./views/SequencerComponent");
+var sequencerView  = require("./views/SequencerView.html");
 var system         = require("system");
 var io, sequencer, server, file, sync;
 
 
+// render({
+//   model: sequencer,
+//   view:
+// })
 
 
 

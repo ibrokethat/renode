@@ -19,7 +19,7 @@ var io, sequencer, server, file, sync;
 
 
 //  set up the file server
-file = new(nodeStatic.Server)("htdocs", {
+file = new nodeStatic.Server("htdocs", {
   cache: 0,
   headers: {
     "X-App":"renode"

@@ -5,12 +5,23 @@
 */
 require("Object");
 
+var system         = require("system");
+var renderer       = require("renderer");
 var SequencerModel = require("./models/SequencerModel");
 var sequencerView  = require("./views/SequencerView.html");
-var system         = require("system");
+var song           = require("./song");
+var renderView     = renderer.renderView;
 var io, sequencer, server, file, sync;
+var sequencerModel = SequencerModel.spawn(song);
 
-document.body.innerHTML = sequencerView;
+renderView({
+
+  root: document.body,
+  view: sequencerView,
+  model: sequencerModel,
+  controller: null
+
+});
 
 
 // render({

@@ -9,6 +9,11 @@
 @author:        Simon Jefford
 
 */
+
+function log() {
+  console.log.apply(console, arguments);
+}
+
 (function() {
 
   "use strict";
@@ -18,6 +23,7 @@
   var modules = {};
   var load;
   var head;
+
 
   function getView (url, success) {
 
@@ -154,8 +160,8 @@
     var exports = {};
     var module = {path: moduleName};
 
-    def(function(dependencyName)  {
-      return require(dependencyName, moduleName);
+    def(function(dependencyName, root)  {
+      return require(dependencyName, root || moduleName);
     }, exports, module);
 
     exports = module.exports || exports;
@@ -213,6 +219,7 @@
 
       initModule(moduleName, def);
       em.emit("/module/initialised/" + moduleName);
+      log("/module/initialised/", moduleName)
 
     }
 
@@ -261,6 +268,8 @@
       delete uninitialised[fileName];
 
       em.emit("/module/initialised/" + fileName);
+      log("/module/initialised/", fileName)
+
 
     }
 
@@ -392,8 +401,6 @@
 
 
     EventEmitter.prototype.emit = function(type) {
-
-      if (type !== "newListener") console.log(type);
 
       // If there is no 'error' event listener then throw.
       if (type === 'error') {

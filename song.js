@@ -3,16 +3,31 @@
   @module       song
   @description  test beats
 
-*/
 
-// 0
-// 16
-// 32
-// 48
-// 64
-// 80
-// 96
-// 112
+  1 bar has 128 steps (0 - 127)
+  1 beat has 32 steps
+
+  1   e   an   d   2   e   an   d   3   e   an   d   4   e   an   d
+
+  0   8   16   24  32  40  48   56  64  72  80   88  96  104 112  120
+
+  128              160              192              224
+
+  256              288              320              352
+
+  384              416              448              480
+
+
+  bpm = 120
+
+  bar duration = 60000 / bpm * 4; (2 second bar)
+
+  2000ms
+
+  step length = 2000/128 ~= 16ms
+
+
+*/
 
 module.exports = {
 
@@ -85,52 +100,26 @@ module.exports = {
         {
           "bars": 1,
           "notes"   : [
-            // {"start": 0, "key": 36, "velocity": 127, "duration": 100},
-            // {"start": 12, "key": 56, "velocity": 127, "duration": 100},
-            // {"start": 32, "key": 56, "velocity": 127, "duration": 100},
-            // {"start": 64, "key": 36, "velocity": 127, "duration": 100},
-            // {"start": 96, "key": 66, "velocity": 127, "duration": 100}
+            {"start": 0, "key": 36, "velocity": 127, "duration": 100},
+            {"start": 12, "key": 56, "velocity": 127, "duration": 100},
+            {"start": 32, "key": 56, "velocity": 127, "duration": 100},
+            {"start": 64, "key": 36, "velocity": 127, "duration": 100},
+            {"start": 96, "key": 66, "velocity": 127, "duration": 100}
           ]
         },
         {
           "bars": 1,
           "notes"   : [
-            // {"start": 0, "key": 36, "velocity": 127, "duration": 100},
-            // {"start": 12, "key": 56, "velocity": 127, "duration": 100},
-            // {"start": 16, "key": 68, "velocity": 127, "duration": 100},
-            // {"start": 24, "key": 68, "velocity": 127, "duration": 100},
-            // {"start": 32, "key": 56, "velocity": 127, "duration": 100},
-            // {"start": 64, "key": 36, "velocity": 127, "duration": 100},
-            // {"start": 96, "key": 66, "velocity": 127, "duration": 100}
+            {"start": 0, "key": 36, "velocity": 127, "duration": 100},
+            {"start": 12, "key": 56, "velocity": 127, "duration": 100},
+            {"start": 16, "key": 68, "velocity": 127, "duration": 100},
+            {"start": 24, "key": 68, "velocity": 127, "duration": 100},
+            {"start": 32, "key": 56, "velocity": 127, "duration": 100},
+            {"start": 64, "key": 36, "velocity": 127, "duration": 100},
+            {"start": 96, "key": 66, "velocity": 127, "duration": 100}
           ]
         }
       ]
     }
   ]
-};
-
-/*
-
-  1 bar has 128 steps (0 - 127)
-  1 beat has 32 steps
-
-  1   e   an   d   2   e   an   d   3   e   an   d   4   e   an   d
-
-  0   8   16   24  32  40  48   56  64  72  80   88  96  104 112  120
-
-  128              160              192              224
-
-  256              288              320              352
-
-  384              416              448              480
-
-
-  bpm = 120
-
-  bar duration = 60000 / bpm * 4; (2 second bar)
-
-  2000ms
-
-  step length = 2000/128 ~= 16ms
-
-*/
+}

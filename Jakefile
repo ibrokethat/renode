@@ -16,6 +16,7 @@ namespace("dev", function() {
     copyFile("index.html");
     copyFile("require.js");
     copyFile("worker.js");
+    copyFile("song.js");
     buildPackageDependencies("package.json");
     buildModule("client.js");
 

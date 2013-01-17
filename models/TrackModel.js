@@ -21,7 +21,8 @@ module.exports = Base.extend({
     value: {
 
       title: {
-        type: "string"
+        type        : "string",
+        defaultValue: "New Track"
       },
 
       midiOn: {

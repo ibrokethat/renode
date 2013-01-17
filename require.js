@@ -54,8 +54,19 @@
   }
 
   // require a module
-  function require (moduleName) {
-    return modules[moduleName].def;
+  function require (moduleName, from) {
+    try {
+
+      moduleName = resolvePath(from || null, moduleName);
+      return modules[moduleName].def;
+
+    }
+    catch(e) {
+
+      console.warn("module not found > ", moduleName);
+
+    }
+
   }
 
   //  register a module
@@ -70,6 +81,7 @@
   }
 
   if(typeof importScripts === "function") {
+
     load = function (moduleName) {
 
       if(modules[moduleName]) {
@@ -79,32 +91,39 @@
       //   moduleName += ".min";
       // }
       importScripts(moduleName + ".js");
+
     };
   }
   else {
+
     head = document.getElementsByTagName("head")[0];
     // load a module from the server
-    load = function(moduleName) {
-      if(modules[moduleName]) {
+    load = function (moduleName) {
+
+      if(modules.hasOwnProperty(moduleName)) {
+
         return require(moduleName);
+
       }
-      loading[moduleName] = true;
-      var script = document.createElement("script");
-      script.id = moduleName;
-      // if(!self.debug) {
-      //  moduleName += ".min";
-      // }
-      script.src = moduleName + ".js";
-      head.appendChild(script);
+      else {
+
+        loading[moduleName] = true;
+        var script = document.createElement("script");
+        script.id = moduleName;
+        script.src = moduleName + ".js";
+        head.appendChild(script);
+
+      }
 
     };
+
   }
 
   // load a template from the server
   function loadView(fileName) {
 
     loading[fileName] = true;
-    getView(fileName, defineView.bind(null, fileName));
+    getView(fileName , defineView.bind(null, fileName));
 
   }
 
@@ -135,7 +154,9 @@
     var exports = {};
     var module = {path: moduleName};
 
-    def(require, exports, module);
+    def(function(dependencyName)  {
+      return require(dependencyName, moduleName);
+    }, exports, module);
 
     exports = module.exports || exports;
 
@@ -151,17 +172,19 @@
     delete loading[moduleName];
     uninitialised[moduleName] = true;
 
-    if(typeof def === "undefined") {
+    if (typeof def === "undefined") {
       def = dependencies;
       dependencies = [];
     }
 
     // test to see if all the modules dependencies are loaded
-    dependencies = dependencies.filter(function(dependencyName) {
+    var dependencies = dependencies.filter(function(dependencyName) {
+
+      dependencyName = resolvePath(moduleName, dependencyName);
 
       if(!modules[dependencyName]) {
 
-        em.once("/module/initialised" + dependencyName, function() {
+        em.once("/module/initialised/" + dependencyName, function() {
           define(moduleName, dependencies, def);
         });
 
@@ -170,18 +193,11 @@
         }
         else {
 
-          if (/^\w+/.test(dependencyName)) {
-            dependencyName = "node_modules/" + dependencyName + "/" + dependencyName;
-          }
-          else {
-            dependencyName = resolvePath(moduleName, dependencyName).substring(1);
-          }
-
           if(/\.html$/.test(dependencyName)) {
-            loadView(dependencyName);
+            loadView(dependencyName, moduleName);
           }
           else {
-            load(dependencyName);
+            load(dependencyName, moduleName);
           }
           return true;
         }
@@ -196,7 +212,7 @@
       delete uninitialised[moduleName];
 
       initModule(moduleName, def);
-      em.emit("/module/initialised" + moduleName);
+      em.emit("/module/initialised/" + moduleName);
 
     }
 
@@ -205,28 +221,26 @@
 
   function defineView (fileName, data) {
 
+    delete loading[fileName];
+    uninitialised[fileName] = true;
+
     var dependencies = extractViewRequires(data);
 
     // test to see if all the modules dependencies are loaded
     dependencies = dependencies.filter(function(dependencyName) {
 
+      dependencyName = resolvePath(fileName, dependencyName);
+
       if(!modules[dependencyName]) {
 
-        em.once("/module/initialised" + dependencyName, function() {
-          defineView(fileName, Data);
+        em.once("/module/initialised/" + dependencyName, function() {
+          defineView(fileName, data);
         });
 
         if (loading[dependencyName] || uninitialised[dependencyName]) {
           return true;
         }
         else {
-
-          if (/^\w+/.test(dependencyName)) {
-            dependencyName = "node_modules/" + dependencyName + "/" + dependencyName;
-          }
-          else {
-            dependencyName = resolvePath(fileName, dependencyName).substring(1);
-          }
 
           if(/\.html$/.test(dependencyName)) {
             loadView(dependencyName);
@@ -240,14 +254,13 @@
       return false;
     });
 
-
     //  if there are no unloaded dependencies initialise the module
     if(dependencies.length === 0 && !modules[fileName]) {
 
       register(fileName, data);
       delete uninitialised[fileName];
 
-      em.emit("/module/initialised" + fileName);
+      em.emit("/module/initialised/" + fileName);
 
     }
 
@@ -255,22 +268,37 @@
 
 
 
+  //  todo: refactor for genuine package loading
   function resolvePath (from, to) {
 
-    var cwd = process.cwd();
+    if (to === "./TrackModule") {
+      console.log(from, " > ", to);
+    }
 
-    process.chdir(path.dirname(from));
-    var name = path.resolve(to);
+    if (/^\w+/.test(to)) {
 
-    process.chdir(cwd);
+      return "node_modules/" + to + "/" + to;
 
-    return name;
+    }
+    else {
+
+      var cwd = process.cwd();
+
+      process.chdir(from ? path.dirname(from) : cwd);
+
+      var name = path.resolve(to);
+
+      process.chdir(cwd);
+
+      return name.substring(1);
+
+    }
 
   }
 
 
   // register system api's and language extensions
-  var process = initModule("process", function(require, exports, module) {
+  var process = initModule("node_modules/process/process", function(require, exports, module) {
 
     var process = module.exports = {};
 
@@ -331,7 +359,7 @@
   });
 
 
-  var events = initModule("events", function(require, exports) {
+  var events = initModule("node_modules/events/events", function(require, exports) {
 
     if (!process.EventEmitter) process.EventEmitter = function () {};
 
@@ -364,6 +392,9 @@
 
 
     EventEmitter.prototype.emit = function(type) {
+
+      if (type !== "newListener") console.log(type);
+
       // If there is no 'error' event listener then throw.
       if (type === 'error') {
         if (!this._events || !this._events.error ||
@@ -514,12 +545,12 @@
 
   });
 
-  var em = new (require("events")).EventEmitter();
+  var em = new events.EventEmitter();
   em.setMaxListeners(0);
 
 
 
-  var path = initModule("path", function(require, exports) {
+  var path = initModule("node_modules/path/path", function(require, exports) {
 
     function filter (xs, fn) {
         var res = [];

@@ -10,6 +10,8 @@ var sequencerView  = require("./views/SequencerView.html");
 var system         = require("system");
 var io, sequencer, server, file, sync;
 
+document.body.innerHTML = sequencerView;
+
 
 // render({
 //   model: sequencer,

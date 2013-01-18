@@ -190,7 +190,7 @@ function log() {
 
       if(!modules[dependencyName]) {
 
-        em.once("/module/initialised/" + dependencyName, function() {
+        em.once("module/initialised/" + dependencyName, function() {
           define(moduleName, dependencies, def);
         });
 
@@ -218,8 +218,8 @@ function log() {
       delete uninitialised[moduleName];
 
       initModule(moduleName, def);
-      em.emit("/module/initialised/" + moduleName);
-      log("/module/initialised/", moduleName)
+      em.emit("module/initialised/" + moduleName);
+      log("module/initialised/", moduleName)
 
     }
 
@@ -240,7 +240,7 @@ function log() {
 
       if(!modules[dependencyName]) {
 
-        em.once("/module/initialised/" + dependencyName, function() {
+        em.once("module/initialised/" + dependencyName, function() {
           defineView(fileName, data);
         });
 
@@ -267,8 +267,8 @@ function log() {
       register(fileName, data);
       delete uninitialised[fileName];
 
-      em.emit("/module/initialised/" + fileName);
-      log("/module/initialised/", fileName)
+      em.emit("module/initialised/" + fileName);
+      log("module/initialised/", fileName)
 
 
     }

@@ -24,7 +24,8 @@
     "detective"  : "0.2.x",
     "midi"       : "0.6.x",
     "node-static": "0.6.x",
-    "uglify-js"  : "2.2.x"
+    "uglify-js"  : "2.2.x",
+    "socket.io"  : "0.9.x"
   },
   "devDependencies": {
     "mocha": "1.2.x",

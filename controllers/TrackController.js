@@ -11,16 +11,17 @@ var copyInCollection     = controllers.copyInCollection;
 
 
 
-exports["click:activate-pattern"] = partial(controller, function(e, track, pattern) {
+exports["click:activate"] = partial(controller, function(e, track, pattern) {
 
-  track.nextPatternId = pattern.id;
+  if (track.activePatternId === pattern.id) {
 
-});
+      track.nextPatternId = "-1";
+  }
+  else {
 
+    track.nextPatternId = pattern.id;
 
-exports["click:deactivate-pattern"] = partial(controller, function(e, track, pattern) {
-
-  track.nextPatternId = -1;
+  }
 
 });
 

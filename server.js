@@ -8,25 +8,25 @@
 require("Object");
 
 //  start our server
-var http           = require("http");
-var nodeStatic     = require("node-static");
-// var socket         = require("socket.io");
-var SequencerModel = require("./models/SequencerModel");
+var http              = require("http");
+var events            = require("events");
+var nodeStatic        = require("node-static");
+var socket            = require("socket.io");
+var SequencerModel    = require("./models/SequencerModel");
 var sequencerCommands = require("./commands/sequencer");
-var song           = require("./song");
-var system         = require("system");
-var io, sequencer, server, file, sync;
-
+var song              = require("./song");
+var system            = require("system");
+var registry          = require("registry");
 
 //  set up the file server
-file = new nodeStatic.Server("htdocs", {
+var file = new nodeStatic.Server("htdocs", {
   cache: 0,
   headers: {
     "X-App":"renode"
   }
 });
 
-server = http.createServer(function (request, response) {
+var server = http.createServer(function (request, response) {
 
   request.on("end", function () {
     //
@@ -47,40 +47,41 @@ server = http.createServer(function (request, response) {
 
 server.listen(8080);
 
-console.log("> node-static is listening on http://127.0.0.1:8080");
+console.info("> renode ui: http://127.0.0.1:8080");
+
+sequencer = SequencerModel.spawn(song);
+
+sequencerCommands.load(sequencer);
+
 
 //  set up the socket
-// sync = EventMachine.spawn();
+io = socket.listen(server);
 
-// io = socket.listen(server);
+io.sockets.on("connection", function (socket) {
 
-// io.sockets.on("connection", function (socket) {
+  socket.emit("song/opened", {
+    song: song
+  });
 
-//   socket.emit("/connection/initialised", {
-//     song: song
-//   });
+  socket.on("sync", function(data) {
 
-//   socket.on("/sync", function(data) {
+    console.log(data);
 
-//     var object = registry.get(data.id);
-//     object[data.methodName].sync.apply(object, data.args);
+    var object = registry.get(data.id);
+    if (object) object.sync(data);
 
-//     socket.broadcast.emit("/sync", data);
+    socket.broadcast.emit("sync", data);
 
-//   });
+  });
 
-//   sync.on("/sync", function(data) {
+  system.on("sync", function(data) {
 
-//     socket.broadcast.emit("/sync", data);
+    socket.broadcast.emit("sync", data);
 
-//   });
+  });
 
 
-// });
-
-// service.register("registry", registry);
-// service.register("sync", sync);
-// service.register("midi", midi);
+});
 
 //  eventually
 
@@ -96,39 +97,3 @@ console.log("> node-static is listening on http://127.0.0.1:8080");
 
 // });
 
-sequencer = SequencerModel.spawn(song);
-
-sequencerCommands.load(sequencer);
-
-setTimeout(function () {
-
-  sequencer.playing = true;
-
-}, 200);
-
-
-setTimeout(function () {
-
-  sequencer.tracks.items[0].nextPatternId = sequencer.tracks.items[0].patterns.items[1].id;
-
-}, 7500);
-
-// var inspect = require("util").inspect;
-// // console.log(inspect(sequencer, true, null, true));
-
-// sequencer.on("locked", function() {
-//   console.log(sequencer.locked);
-// });
-
-// system.on("sync", function(data) {
-//   console.log(inspect(data, true, null, true));
-// });
-
-// setTimeout(function () {
-//   sequencer.edit = true;
-// }, 1000);
-
-
-// setTimeout(function () {
-//   sequencer.edit = false;
-// }, 2000);

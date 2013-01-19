@@ -32,7 +32,13 @@ module.exports = Base.extend({
 
       state: {
         defaultValue : "stopped",
+        sync         : true,
         type         : "string"
+      },
+
+      steps: {
+        defaultValue: [],
+        type: "array"
       }
 
     }

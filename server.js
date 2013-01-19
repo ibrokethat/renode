@@ -65,8 +65,6 @@ io.sockets.on("connection", function (socket) {
 
   socket.on("sync", function(data) {
 
-    console.log(data);
-
     var object = registry.get(data.id);
     if (object) object.sync(data);
 

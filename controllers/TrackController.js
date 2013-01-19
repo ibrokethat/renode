@@ -20,7 +20,7 @@ exports["click:activate"] = partial(controller, function(e, track, pattern) {
   else {
 
     track.nextPatternId = pattern.id;
-
+    pattern.state = pattern.PENDING;
   }
 
 });

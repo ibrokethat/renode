@@ -24,16 +24,19 @@ function barDuration (bpm, steps) {
 
 }
 
-
+// var playing = false;
 function play(sequencer) {
 
   timer = setInterval(partial(playNotes, sequencer), barDuration(sequencer.bpm, sequencer.steps));
+  //process.nextTick(partial(playNotes, sequencer));
+  //playing = true;
 
 }
 
 
 function stop (sequencer) {
 
+  //playing = false;
   clearTimeout(timer);
 
 }
@@ -59,7 +62,8 @@ function playNotes (sequencer) {
       if (pattern.bars * sequencer.steps === pattern.currentStep) {
 
         if (track.activePatternId !== track.nextPatternId) {
-          track.activePatternId = track.nextPatternId
+          track.activePatternId = track.nextPatternId;
+          pattern.state = pattern.STOPPED;
         }
 
         pattern.currentStep = 0;
@@ -72,13 +76,15 @@ function playNotes (sequencer) {
     else {
 
       if (track.activePatternId !== track.nextPatternId) {
-        track.activePatternId = track.nextPatternId
+        track.activePatternId = track.nextPatternId;
       }
 
     }
 
 
   });
+
+  // if (playing) process.nextTick(partial(playNotes, sequencer));
 
 }
 
@@ -120,9 +126,21 @@ function initTracks (sequencer) {
 function initTrack (track) {
 
   track.activePatternId = track.nextPatternId = track.patterns.items[0].id;
-
+  track.on("activePatternId", playing);
+  track.patterns.on("add", function (data) {
+    mapNotesToSteps(data.item);
+  });
   return track;
 
+}
+
+
+function playing (data) {
+
+  var pattern = registry.get(data.value);
+  if (pattern) {
+    pattern.state = pattern.PLAYING;
+  }
 }
 
 
@@ -137,11 +155,7 @@ function initPatterns (track) {
 
 function mapNotesToSteps (pattern) {
 
-  Object.defineProperties(pattern, {
-    "steps": {
-      value: []
-    }
-  });
+  pattern.steps = [];
 
   forEach(pattern.notes.items, function (note) {
     pattern.steps[note.start] = pattern.steps[note.start] || [];

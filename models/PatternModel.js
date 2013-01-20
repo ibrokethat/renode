@@ -10,9 +10,6 @@ var NoteModel = require("./NoteModel");
 
 module.exports = Base.extend({
 
-  //  properties
-
-
   /**
     @description  properties
   */
@@ -45,6 +42,7 @@ module.exports = Base.extend({
 
   },
 
+
   /**
     @description  relationships
   */
@@ -72,6 +70,28 @@ module.exports = Base.extend({
   STOPPED: {
     value: "stopped",
     configurable: false
+  },
+
+  pending: {
+    value: function () {
+      this.state = this.PENDING;
+    }
+  },
+
+  playing: {
+    value: function () {
+      this.state = this.PLAYING;
+    }
+  },
+
+  stopped: {
+    value: function () {
+      this.state = this.STOPPED;
+    }
   }
 
+
 });
+
+
+

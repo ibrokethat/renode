@@ -75,6 +75,9 @@
         background-color: #666;
       }
 
+      div.pattern[data-state][data-locked="true"] {
+        border: 1px solid red;
+      }
 
 
       /*  controls  */
@@ -108,12 +111,12 @@
         background-color: red;
       }
 
-      section.transport[data-playing=true] a[data-action="play"] {
+      section.transport[data-state=playing] a[data-action="play"] {
         color: #000;
         cursor: default;
       }
 
-      section.transport[data-playing=false] a[data-action="stop"] {
+      section.transport[data-state=stopped] a[data-action="stop"] {
         color: #000;
         cursor: default;
       }

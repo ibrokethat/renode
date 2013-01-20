@@ -65,10 +65,11 @@ io.sockets.on("connection", function (socket) {
 
   socket.on("sync", function(data) {
 
-    var object = registry.get(data.id);
-    if (object) object.sync(data);
-
-    socket.broadcast.emit("sync", data);
+    if (registry.has(data.id)) {
+      var object = registry.get(data.id);
+      socket.broadcast.emit("sync", data);
+      object.sync(data);
+    }
 
   });
 

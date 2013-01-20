@@ -39,11 +39,9 @@ socket.on("song/opened", function (data) {
 
   socket.on("sync", function(data) {
 
-    if (data.hasOwnProperty("id")) {
-
+    if (registry.has(data.id)) {
       var object = registry.get(data.id);
       object.sync(data);
-
     }
 
   });
@@ -65,3 +63,8 @@ socket.on("disconnect", function () {
   sequencerModel = null;
 
 });
+
+
+window.dump = function () {
+  console.log(sequencerModel);
+}

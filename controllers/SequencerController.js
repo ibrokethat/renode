@@ -14,14 +14,14 @@ var removeFromCollection = controllers.removeFromCollection;
 
 exports["click:play"] = partial(controller, function(e, sequencer) {
 
-  sequencer.playing = true;
+  sequencer.play();
 
 });
 
 
 exports["click:stop"] = partial(controller, function(e, sequencer) {
 
-  sequencer.playing = false;
+  sequencer.stop();
 
 });
 

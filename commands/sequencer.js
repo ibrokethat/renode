@@ -47,10 +47,9 @@ function playNotes (sequencer) {
 
   forEach(sequencer.tracks.items, function(track) {
 
-    var pattern = registry.get(track.activePatternId);
+    if (registry.has(track.activePatternId)) {
 
-    if (pattern) {
-
+      var pattern = registry.get(track.activePatternId);
       var notes = pattern.steps[pattern.currentStep];
 
       if (notes) {
@@ -63,7 +62,7 @@ function playNotes (sequencer) {
 
         if (track.activePatternId !== track.nextPatternId) {
           track.activePatternId = track.nextPatternId;
-          pattern.state = pattern.STOPPED;
+          pattern.stopped();
         }
 
         pattern.currentStep = 0;
@@ -98,7 +97,7 @@ function playNote (track, note) {
 
 function initSequencer (sequencer) {
 
-  sequencer.on("playing", function() {
+  sequencer.on("state", function() {
 
     if (sequencer.playing) {
       play(sequencer);
@@ -137,9 +136,9 @@ function initTrack (track) {
 
 function playing (data) {
 
-  var pattern = registry.get(data.value);
-  if (pattern) {
-    pattern.state = pattern.PLAYING;
+  if (registry.has(data.value)) {
+    var pattern = registry.get(data.value);
+    pattern.playing();
   }
 }
 

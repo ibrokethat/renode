@@ -10,8 +10,9 @@ var removeFromCollection = controllers.removeFromCollection;
 var copyInCollection     = controllers.copyInCollection;
 
 
-
 exports["click:activate"] = partial(controller, function(e, track, pattern) {
+
+  if (track.locked) return;
 
   if (track.activePatternId === pattern.id) {
 
@@ -20,8 +21,18 @@ exports["click:activate"] = partial(controller, function(e, track, pattern) {
   else {
 
     track.nextPatternId = pattern.id;
-    pattern.state = pattern.PENDING;
+    pattern.pending();
+
   }
+
+});
+
+exports["dblclick:activate"] = partial(controller, function(e, track, pattern) {
+
+  if (track.locked) return;
+
+  pattern.edit = true;
+  track.locked = true;
 
 });
 

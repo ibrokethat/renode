@@ -28,15 +28,25 @@ module.exports = Base.extend({
         type         : "number"
       },
 
-      playing: {
-        defaultValue : false,
-        type         : "boolean",
-        sync         : true
-      },
-
       steps: {
         defaultValue : 128,
         type         : "number"
+      },
+
+      state: {
+        defaultValue : "stopped",
+        sync         : true,
+        type         : "string"
+      },
+
+      playing: {
+        defaultValue: false,
+        type: "boolean",
+        on: {
+          state: function () {
+            this.playing = this.state === this.PLAYING ? true : false;
+          }
+        }
       }
 
     }
@@ -60,6 +70,29 @@ module.exports = Base.extend({
   EDIT_EVENT: {
     value: "edit-sequencer",
     configurable: false
+  },
+
+  PLAYING: {
+    value: "playing",
+    configurable: false
+  },
+  STOPPED: {
+    value: "stopped",
+    configurable: false
+  },
+
+
+  play: {
+    value: function () {
+      this.state = this.PLAYING;
+    }
+  },
+
+  stop: {
+    value: function () {
+      this.state = this.STOPPED;
+    }
   }
+
 
 });

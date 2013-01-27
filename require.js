@@ -149,7 +149,11 @@ function log() {
       return "./" + (/data-view="(\w+)"/.exec(view)[1]) + ".html";
     });
 
-    return controllers.concat(views);
+    var renderers = (file.match(/data-renderer="(\w+)"/g) || []).map(function (renderer) {
+      return "../renderers/" + (/data-renderer="(\w+)"/.exec(renderer)[1]);
+    });
+
+    return controllers.concat(views, renderers);
 
   }
 
@@ -278,10 +282,6 @@ function log() {
 
   //  todo: refactor for genuine package loading
   function resolvePath (from, to) {
-
-    if (to === "./TrackModule") {
-      console.log(from, " > ", to);
-    }
 
     if (/^\w+/.test(to)) {
 

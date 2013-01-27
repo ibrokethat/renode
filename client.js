@@ -8,6 +8,7 @@ require("Object");
 var system         = require("system");
 var renderer       = require("renderer");
 var registry       = require("registry");
+var song       = require("./song");
 var SequencerModel = require("./models/SequencerModel");
 var sequencerView  = require("./views/SequencerView.html");
 var renderView     = renderer.renderView;
@@ -65,6 +66,4 @@ socket.on("disconnect", function () {
 });
 
 
-window.dump = function () {
-  console.log(sequencerModel);
-}
+window.get = registry.get;

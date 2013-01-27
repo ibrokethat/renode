@@ -16,19 +16,23 @@ module.exports = Base.extend({
     value: {
 
       start: {
-        type: "number"
+        type: "number",
+        sync: "true"
       },
 
-      key: {
-        type: "number"
+      midiNote: {
+        type: "number",
+        sync: "true"
       },
 
       velocity: {
-        type: "number"
+        type: "number",
+        sync: "true"
       },
 
       duration: {
-        type: "number"
+        type: "number",
+        sync: "true"
       }
 
     }
@@ -36,7 +40,7 @@ module.exports = Base.extend({
   },
 
   EDIT_EVENT: {
-    value: "edit/note",
+    value: "edit-note",
     configurable: false
   }
 

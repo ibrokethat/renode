@@ -45,12 +45,11 @@ var server = http.createServer(function (request, response) {
   });
 });
 
-server.listen(8080);
+server.listen(8088);
 
-console.info("> renode ui: http://127.0.0.1:8080");
+console.info("> renode ui: http://127.0.0.1:8088");
 
 sequencer = SequencerModel.spawn(song);
-
 sequencerCommands.load(sequencer);
 
 
@@ -60,7 +59,7 @@ io = socket.listen(server);
 io.sockets.on("connection", function (socket) {
 
   socket.emit("song/opened", {
-    song: song
+    song: sequencer.serialise(true)
   });
 
   socket.on("sync", function(data) {

@@ -6,6 +6,8 @@
 
     <style>
 
+      * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
       html, body {
         font-family: courier;
         height: 100%;
@@ -42,7 +44,7 @@
       div.track {
         float: left;
         width: 100px;
-        height: 100px;
+        min-height: 100px;
       }
 
       div.track > header * {
@@ -50,10 +52,10 @@
         height: 30px;
       }
 
-      div[data-has-many="tracks"] {
-/*        display: -webkit-flexbox;
-        display: flexbox;
-*/      }
+      div[data-hasMany="tracks"] {
+        margin-bottom: 20px;
+        min-height: 200px;
+      }
 
       /*  pattern */
 
@@ -82,16 +84,18 @@
 
       /*  controls  */
 
-      section.transport {
+      div.transport {
+        background-color: #fff;
         border-top: 1px solid #000;
         bottom: 0;
         height: 50px;
         position: fixed;
         width: 100%;
+        z-index: 100;
       }
 
 
-      section.transport a {
+      div.transport a {
         border-radius: 5px;
         color: #fff;
         cursor: pointer;
@@ -103,24 +107,92 @@
         width: 60px;
       }
 
-      section.transport a[data-action="play"] {
+      div.transport a[data-action="play"] {
         background-color: green;
       }
 
-      section.transport a[data-action="stop"] {
+      div.transport a[data-action="stop"] {
         background-color: red;
       }
 
-      section.transport[data-state=playing] a[data-action="play"] {
+      div.transport[data-state=playing] a[data-action="play"] {
         color: #000;
         cursor: default;
       }
 
-      section.transport[data-state=stopped] a[data-action="stop"] {
+      div.transport[data-state=stopped] a[data-action="stop"] {
         color: #000;
         cursor: default;
       }
 
+
+      /*
+        pattern editor
+      */
+
+      div.pattern-editor {
+        clear: both;
+        display: table;
+        border-top: 1px solid #666;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      div[data-note] {
+        display: table-row;
+        height: 10px;
+      }
+
+      div[data-note].semi {
+        background-color: #eaeaea;
+      }
+
+      div[data-note] > div {
+        border-right: 1px solid #fff;
+        border-top: 1px solid #eaeaea;
+        display: table-cell;
+      }
+
+      div[data-note].semi > div {
+        border-right: 1px solid #eaeaea;
+      }
+
+      div[data-note] > div:nth-child(8n) {
+        border-right: 1px solid #eaeaea;
+      }
+
+      div[data-note] > div:nth-child(16n) {
+        border-right: 1px solid #ccc;
+      }
+
+      div[data-note] > div:nth-child(32n) {
+        border-right: 1px solid #999;
+      }
+
+      div[data-step] {
+        position: relative;
+      }
+
+      div.note {
+        background-color: #000;
+        height: 10px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 20px;
+      }
+
+      div.note[data-edit="true"] {
+        background-color: green;
+      }
+
+      [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
 
     </style>
 

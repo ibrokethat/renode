@@ -37,7 +37,7 @@ exports["dblclick:activate"] = partial(controller, function(e, track, pattern) {
 });
 
 
-exports["click:create-pattern"] = partial(controller, partial(createInCollection, Pattern, "patterns"));
+exports["click:create-pattern"] = partial(controller, partial(createInCollection, Pattern, "patterns", false));
 
 
 exports["click:delete-pattern"] = partial(controller, partial(removeFromCollection, "patterns"));

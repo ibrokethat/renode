@@ -1,9 +1,9 @@
-<div class="sequencer" data-attr="id" data-model="SequencerModel" data-controller="SequencerController">
-  <section class="transport" data-attr="state">
+<div class="sequencer" data-model="SequencerModel" data-controller="SequencerController" data-attr="id">
+  <div class="transport" data-attr="state">
     <a data-action="play">Play</a>
     <a data-action="stop">Stop</a>
-  </section>
+  </div>
   <a data-action="create-track">+</a>
-  <div data-hasMany="tracks" data-view="TrackView"></div>
+  <div data-has-many="tracks" data-view="TrackView"></div>
   <div data-on="edit-pattern" data-view="PatternEditorView"></div>
 </div>

@@ -16,7 +16,16 @@ midiOut.openVirtualPort("renode");
 var midiIn = new midi.input();
 midiIn.openVirtualPort("renode");
 
-
+//var time;
+// var playing = false;
+  //process.nextTick(partial(playNotes, sequencer));
+  //playing = true;
+  //playing = false;
+  // time = process.hrtime();
+  // time = process.hrtime(time);
+  // [ 1, 552 ]
+  // console.log('benchmark took %d nanoseconds', time[0] * 1e9 + time[1]);
+  // if (playing) process.nextTick(partial(playNotes, sequencer));
 
 function barDuration (bpm, steps) {
 
@@ -24,19 +33,16 @@ function barDuration (bpm, steps) {
 
 }
 
-// var playing = false;
+
 function play(sequencer) {
 
   timer = setInterval(partial(playNotes, sequencer), barDuration(sequencer.bpm, sequencer.steps));
-  //process.nextTick(partial(playNotes, sequencer));
-  //playing = true;
 
 }
 
 
 function stop (sequencer) {
 
-  //playing = false;
   clearTimeout(timer);
 
 }
@@ -83,15 +89,15 @@ function playNotes (sequencer) {
 
   });
 
-  // if (playing) process.nextTick(partial(playNotes, sequencer));
 
 }
 
 
 function playNote (track, note) {
 
-  midiOut.sendMessage([track.midiOn, note.key, note.velocity]);
-  setTimeout(bind(midiOut, midiOut.sendMessage, [track.midiOff, note.key, note.VELOCITY_OFF]), note.duration);
+  midiOut.sendMessage([track.midiOn, note.midiNote, note.velocity]);
+  setTimeout(bind(midiOut, midiOut.sendMessage, [track.midiOff, note.midiNote, note.VELOCITY_OFF]), note.duration);
+
 }
 
 
@@ -108,6 +114,7 @@ function initSequencer (sequencer) {
 
   });
 
+
   return sequencer;
 
 }
@@ -115,6 +122,9 @@ function initSequencer (sequencer) {
 
 function initTracks (sequencer) {
 
+  sequencer.tracks.on("add", function (data) {
+    initTrack(data.item);
+  });
   forEach(sequencer.tracks.items, compose(initPatterns, initTrack));
 
   return sequencer;
@@ -124,22 +134,17 @@ function initTracks (sequencer) {
 
 function initTrack (track) {
 
-  track.activePatternId = track.nextPatternId = track.patterns.items[0].id;
   track.on("activePatternId", playing);
   track.patterns.on("add", function (data) {
     mapNotesToSteps(data.item);
   });
+
+  if (track.patterns.items.length) {
+    track.activePatternId = track.nextPatternId = track.patterns.items[0].id;
+  }
+
   return track;
 
-}
-
-
-function playing (data) {
-
-  if (registry.has(data.value)) {
-    var pattern = registry.get(data.value);
-    pattern.playing();
-  }
 }
 
 
@@ -150,6 +155,16 @@ function initPatterns (track) {
 
 }
 
+
+function playing (data) {
+
+  if (registry.has(data.value)) {
+    var pattern = registry.get(data.value);
+    pattern.playing();
+
+  }
+
+}
 
 
 function mapNotesToSteps (pattern) {

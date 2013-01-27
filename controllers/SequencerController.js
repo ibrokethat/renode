@@ -26,7 +26,7 @@ exports["click:stop"] = partial(controller, function(e, sequencer) {
 });
 
 
-exports["click:create-track"] = partial(controller, partial(createInCollection, Track, "tracks"));
+exports["click:create-track"] = partial(controller, partial(createInCollection, Track, "tracks", false));
 
 
 exports["click:delete-track"] = partial(controller, partial(removeFromCollection, "tracks"));

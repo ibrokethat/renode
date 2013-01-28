@@ -65,13 +65,6 @@ function update (note, i) {
 
 }
 
-// function move (node, i) {
-
-//   node.style.top = currentTarget.offsetTop + modifiers[i].top + "px";
-//   node.style.left = currentTarget.offsetLeft + modifiers[i].left + "px";
-
-// }
-
 
 function initNoteData (e) {
 
@@ -87,18 +80,22 @@ function initNoteData (e) {
 
 document.addEventListener("keypress", function (e) {
 
-  if (e.ctrlKey && e.shiftKey && e.keyCode === 1) {
+  var editor = document.querySelector('[data-controller="PatternEditorController"]');
 
-    var editor = document.querySelector('[data-controller="PatternEditorController"]');
+  if (editor && e.ctrlKey && e.shiftKey) {
 
-    if (!editor) return;
+    if (e.keyCode === 1) {
 
-    notes = [];
-    nodes = [];
-    var pattern = registry.get(editor.dataset.id);
-    forEach(pattern.notes.items, function (note) {
-      selectNote(note, document.querySelector('[data-id="' + note.id + '"]'));
-    });
+      notes = [];
+      nodes = [];
+      var pattern = registry.get(editor.dataset.id);
+      forEach(pattern.notes.items, function (note) {
+        selectNote(note, document.querySelector('[data-id="' + note.id + '"]'));
+      });
+    }
+    else if (e.keyCode === 9) {
+      resetSelection();
+    }
   }
 
 }, false);
@@ -155,8 +152,6 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
     forEach(nodes, function (node, i) {
 
       modifiers[i] = {
-        // top:  (node.offsetTop - dragTarget.offsetTop),
-        // left: (node.offsetLeft - dragTarget.offsetLeft),
         start: (notes[i].start - note.start),
         midiNote: (notes[i].midiNote - note.midiNote)
       };

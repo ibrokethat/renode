@@ -23,7 +23,6 @@ var currentNote = false;
 var dragTarget = false;
 var currentTarget = false;
 
-
 function selectNote (note, node) {
 
   note.edit = true;
@@ -66,14 +65,35 @@ function update (note, i) {
 }
 
 
-function initNoteData (e) {
+function move (node, i) {
 
-  var target = e.delegateTarget || e.target;
+  node.style.top = currentTarget.offsetTop + modifiers[i].top + "px";
+  node.style.left = currentTarget.offsetLeft + modifiers[i].left + "px";
+
+}
+
+function moveAll () {
+
+  forEach(nodes, move);
+  if (dragTarget) {
+    anim = window.requestAnimationFrame(moveAll);
+  }
+
+}
+
+
+function noteData (target) {
 
   return {
     start: parseInt(target.dataset.step, 10),
     midiNote: parseInt(target.parentNode.dataset.midiNote, 10)
   }
+
+}
+
+function initNoteData (e) {
+
+  return noteData(e.delegateTarget || e.target);
 
 }
 
@@ -152,11 +172,15 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
     forEach(nodes, function (node, i) {
 
       modifiers[i] = {
+        top:  (node.offsetTop - dragTarget.offsetTop),
+        left: (node.offsetLeft - dragTarget.offsetLeft),
         start: (notes[i].start - note.start),
         midiNote: (notes[i].midiNote - note.midiNote)
       };
 
     });
+
+    anim = window.requestAnimationFrame(moveAll);
 
   }
 
@@ -172,15 +196,15 @@ exports["mouseover"] = function (e) {
 
   currentTarget = e.target;
 
-  currentNote = initNoteData(e);
-
-  forEach(notes, update);
-
 };
 
 exports["mouseup"] = function (e) {
 
   if (!dragTarget) return;
+
+  window.cancelAnimationFrame(anim);
+
+  currentNote = noteData(currentTarget);
 
   forEach(notes, update);
 

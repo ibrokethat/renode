@@ -12,10 +12,22 @@ function resize (view, data) {
 
 }
 
+function getRoot (root, model) {
+
+  return root.querySelector('div[data-midi-note="' + model.midiNote + '"]>div[data-step="' + model.start + '"]');
+
+}
+
 function move (root, view, data) {
 
-  var model = data.model;
-  var step = root.querySelector('div[data-midi-note="' + model.midiNote + '"]>div[data-step="' + model.start + '"]');
+  var step = getRoot(root, data.model);
+  step.appendChild(view);
+  position(step, view);
+
+}
+
+
+function position (step, view) {
 
   view.style.top = step.offsetTop + "px";
   view.style.left = step.offsetLeft + "px";
@@ -35,7 +47,8 @@ exports.render = function (data) {
   data.model.on("midiNote", partial(move, root, view));
   data.model.on("duration", partial(resize, view));
 
-  move(root, view, data);
+  data.root = getRoot(root, data.model);
+  position(data.root, view);
 
   return data;
 

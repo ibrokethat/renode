@@ -17,10 +17,11 @@ midiOut.openVirtualPort("renode");
 var midiIn = new midi.input();
 midiIn.openVirtualPort("renode");
 
+var song;
 var time;
 var diff;
 var duration;
-var playNext;
+var playing = false;
 var FRAMES = 1920;
 
 //  based on 1920 frames per bar
@@ -30,10 +31,10 @@ function frameDuration (bpm) {
 
 }
 
-function play(sequencer) {
+function play() {
 
-  playNext = partial(playNotes, sequencer);
-  duration = frameDuration(sequencer.bpm);
+  playing = true;
+  duration = frameDuration(song.bpm);
   time = process.hrtime();
   process.nextTick(nextFrame);
 
@@ -42,7 +43,7 @@ function play(sequencer) {
 
 function stop (sequencer) {
 
-  playNext = false;
+  playing = false;
 
 }
 
@@ -67,11 +68,11 @@ function nextFrame () {
 }
 
 
-function playNotes (sequencer) {
+function playNotes () {
 
   // var time = process.hrtime();
 
-  forEach(sequencer.tracks.items, function(track) {
+  forEach(song.tracks.items, function(track) {
 
     if (registry.has(track.activePatternId)) {
 
@@ -128,39 +129,41 @@ function playNote (track, note) {
 }
 
 
-function initSequencer (sequencer) {
+function initSequencer (s) {
 
-  sequencer.on("state", function() {
+  song = s;
 
-    if (sequencer.playing) {
-      play(sequencer);
+  song.on("state", function() {
+
+    if (song.playing) {
+      play();
     }
     else {
-      stop(sequencer);
+      stop();
     }
 
   });
 
-
-  return sequencer;
+  return song;
 
 }
 
 
-function initTracks (sequencer) {
+function initTracks () {
 
-  sequencer.tracks.on("add", function (data) {
+  song.tracks.on("add", function (data) {
     initTrack(data.item);
   });
-  forEach(sequencer.tracks.items, compose(initPatterns, initTrack));
-  return sequencer;
+  forEach(song.tracks.items, compose(initPatterns, initTrack));
+
+  return song;
 
 }
 
 
 function initTrack (track) {
 
-  track.on("activePatternId", playing);
+  track.on("activePatternId", patternPlaying);
 
   if (track.patterns.items.length) {
     track.activePatternId = track.nextPatternId = track.patterns.items[0].id;
@@ -210,7 +213,7 @@ function mapNotesToSteps (pattern) {
 }
 
 
-function playing (data) {
+function patternPlaying (data) {
 
   if (registry.has(data.value)) {
 

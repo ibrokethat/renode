@@ -3,6 +3,7 @@ var registry= require("registry");
 var iter    = require("iter");
 var func    = require("func");
 var forEach = iter.forEach;
+var indexOf = iter.indexOf;
 var compose = func.compose;
 var partial = func.partial;
 var bind    = func.bind;
@@ -16,40 +17,59 @@ midiOut.openVirtualPort("renode");
 var midiIn = new midi.input();
 midiIn.openVirtualPort("renode");
 
-//var time;
-// var playing = false;
-  //process.nextTick(partial(playNotes, sequencer));
-  //playing = true;
-  //playing = false;
-  // time = process.hrtime();
-  // time = process.hrtime(time);
-  // [ 1, 552 ]
-  // console.log('benchmark took %d nanoseconds', time[0] * 1e9 + time[1]);
-  // if (playing) process.nextTick(partial(playNotes, sequencer));
+var time;
+var diff;
+var duration;
+var playNext;
+var FRAMES = 1920;
 
-function barDuration (bpm, steps) {
+//  based on 1920 frames per bar
+function frameDuration (bpm) {
 
-  return (60000 / bpm * 4) / steps;
+  return parseInt((60000000000 / bpm * 4) / FRAMES, 10);
 
 }
 
-
 function play(sequencer) {
 
-  timer = setInterval(partial(playNotes, sequencer), barDuration(sequencer.bpm, sequencer.steps));
+  playNext = partial(playNotes, sequencer);
+  duration = frameDuration(sequencer.bpm);
+  time = process.hrtime();
+  process.nextTick(nextFrame);
 
 }
 
 
 function stop (sequencer) {
 
-  clearTimeout(timer);
+  playNext = false;
 
 }
 
 
+function nextFrame () {
+
+  diff = process.hrtime(time);
+
+  if (playNext) {
+
+    if (diff[1] >= duration) {
+
+      time = process.hrtime();
+      playNext();
+
+    }
+
+    process.nextTick(nextFrame);
+
+  }
+
+}
+
 
 function playNotes (sequencer) {
+
+  // var time = process.hrtime();
 
   forEach(sequencer.tracks.items, function(track) {
 
@@ -64,7 +84,7 @@ function playNotes (sequencer) {
 
       }
 
-      if (pattern.bars * sequencer.steps === pattern.currentStep) {
+      if (pattern.bars * FRAMES === pattern.currentStep) {
 
         if (track.activePatternId !== track.nextPatternId) {
           track.activePatternId = track.nextPatternId;
@@ -86,9 +106,16 @@ function playNotes (sequencer) {
 
     }
 
-
   });
 
+  // var diff = process.hrtime(time);
+
+  // while (diff[1] < duration) {
+
+  //   diff = process.hrtime(time);
+
+  // }
+  // if (playNext) process.nextTick(playNext);
 
 }
 
@@ -126,7 +153,6 @@ function initTracks (sequencer) {
     initTrack(data.item);
   });
   forEach(sequencer.tracks.items, compose(initPatterns, initTrack));
-
   return sequencer;
 
 }
@@ -135,9 +161,6 @@ function initTracks (sequencer) {
 function initTrack (track) {
 
   track.on("activePatternId", playing);
-  track.patterns.on("add", function (data) {
-    mapNotesToSteps(data.item);
-  });
 
   if (track.patterns.items.length) {
     track.activePatternId = track.nextPatternId = track.patterns.items[0].id;
@@ -151,20 +174,24 @@ function initTrack (track) {
 
 function initPatterns (track) {
 
-  forEach(track.patterns.items, mapNotesToSteps);
+  forEach(track.patterns.items, compose(mapNotesToSteps, initPattern));
 
 }
 
 
-function playing (data) {
+function initPattern (pattern) {
 
-  if (registry.has(data.value)) {
-    var pattern = registry.get(data.value);
-    pattern.playing();
+  pattern.notes.on("add", function (data) {
+    mapNotesToSteps(data.collection);
+  });
 
-  }
+  pattern.notes.on("update", function (data) {
+    mapNotesToSteps(data.collection);
+  });
 
+  return pattern;
 }
+
 
 
 function mapNotesToSteps (pattern) {
@@ -172,9 +199,25 @@ function mapNotesToSteps (pattern) {
   pattern.steps = [];
 
   forEach(pattern.notes.items, function (note) {
-    pattern.steps[note.start] = pattern.steps[note.start] || [];
-    pattern.steps[note.start].push(note);
+
+    var start = note.start * 20;
+
+    pattern.steps[start] = pattern.steps[start] || [];
+    pattern.steps[start].push(note);
+
   });
+
+}
+
+
+function playing (data) {
+
+  if (registry.has(data.value)) {
+
+    var pattern = registry.get(data.value);
+    pattern.playing();
+
+  }
 
 }
 
@@ -182,3 +225,4 @@ exports.load = compose(
   initTracks,
   initSequencer
 );
+

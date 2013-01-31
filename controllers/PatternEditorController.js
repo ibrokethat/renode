@@ -76,7 +76,7 @@ function moveAll () {
 
   forEach(nodes, move);
   if (dragTarget) {
-    anim = window.requestAnimationFrame(moveAll);
+    window.requestAnimationFrame(moveAll);
   }
 
 }
@@ -180,7 +180,7 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
 
     });
 
-    anim = window.requestAnimationFrame(moveAll);
+    window.requestAnimationFrame(moveAll);
 
   }
 
@@ -202,7 +202,7 @@ exports["mouseup"] = function (e) {
 
   if (!dragTarget) return;
 
-  window.cancelAnimationFrame(anim);
+  dragTarget = false;
 
   currentNote = noteData(currentTarget);
 
@@ -210,6 +210,5 @@ exports["mouseup"] = function (e) {
 
   currentNote = false;
   currentTarget = false;
-  dragTarget = false;
 
 }

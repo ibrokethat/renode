@@ -26,11 +26,13 @@ module.exports = Base.extend({
       },
 
       velocity: {
+        defaultValue: 127,
         type: "number",
         sync: "true"
       },
 
       duration: {
+        defaultValue: 120,
         type: "number",
         sync: "true"
       }

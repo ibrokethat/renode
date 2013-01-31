@@ -51,6 +51,7 @@ console.info("> renode ui: http://127.0.0.1:8088");
 
 sequencer = SequencerModel.spawn(song);
 sequencerCommands.load(sequencer);
+sequencer.play();
 
 
 //  set up the socket

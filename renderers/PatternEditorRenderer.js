@@ -47,7 +47,7 @@ exports.render = function (data) {
     else {
 
       note = document.createElement("div");
-      forEach(range(0, data.model.bars * 127), function (i) {
+      forEach(range(0, data.model.bars * 95), function (i) {
 
         var step = document.createElement("div");
         step.dataset.step = i;

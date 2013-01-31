@@ -28,11 +28,6 @@ module.exports = Base.extend({
         type         : "number"
       },
 
-      steps: {
-        defaultValue : 128,
-        type         : "number"
-      },
-
       state: {
         defaultValue : "stopped",
         sync         : true,

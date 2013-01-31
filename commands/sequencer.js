@@ -23,8 +23,8 @@ var diff;
 var duration;
 var playing = false;
 var FRAMES = 1920;
+var tickCount;
 
-//  based on 1920 frames per bar
 function frameDuration (bpm) {
 
   return parseInt((60000000000 / bpm * 4) / FRAMES, 10);
@@ -36,12 +36,13 @@ function play() {
   playing = true;
   duration = frameDuration(song.bpm);
   time = process.hrtime();
+  tickCount = 0;
   process.nextTick(nextFrame);
 
 }
 
 
-function stop (sequencer) {
+function stop () {
 
   playing = false;
 
@@ -52,13 +53,18 @@ function nextFrame () {
 
   diff = process.hrtime(time);
 
-  if (playNext) {
+  if (playing) {
 
     if (diff[1] >= duration) {
 
       time = process.hrtime();
-      playNext();
+      playNotes();
+      console.log(tickCount);
+      tickCount = 0;
 
+    }
+    else {
+      tickCount++;
     }
 
     process.nextTick(nextFrame);
@@ -69,8 +75,6 @@ function nextFrame () {
 
 
 function playNotes () {
-
-  // var time = process.hrtime();
 
   forEach(song.tracks.items, function(track) {
 
@@ -108,15 +112,6 @@ function playNotes () {
     }
 
   });
-
-  // var diff = process.hrtime(time);
-
-  // while (diff[1] < duration) {
-
-  //   diff = process.hrtime(time);
-
-  // }
-  // if (playNext) process.nextTick(playNext);
 
 }
 
@@ -203,7 +198,7 @@ function mapNotesToSteps (pattern) {
 
   forEach(pattern.notes.items, function (note) {
 
-    var start = note.start * 20;
+    var start = note.start;
 
     pattern.steps[start] = pattern.steps[start] || [];
     pattern.steps[start].push(note);

@@ -4,31 +4,11 @@
   @description  test beats
 
 
-  1 bar has 128 steps (0 - 127)
-  1 beat has 32 steps
+  1 bar has 96 steps (0 - 95)
+  1 beat has 24 steps
 
-  1   e   an   d   2   e   an   d   3   e   an   d   4   e   an   d
-
-  0   8   16   24  32  40  48   56  64  72  80   88  96  104 112  120
-
-  128              160              192              224
-
-  256              288              320              352
-
-  384              416              448              480
-
-
-  bpm = 120
-
-  bar duration = 60000 / bpm * 4; (2 second bar)
-
-  2000ms
-
-  step length = 2000/128 ~= 16ms
-
-
-  midi:     96
-  advanced: 1920
+  sample accurate frames bar:  1920
+                         beat: 480
 
 
   1     e      an     d     2     e     an     d     3     e     an     d     4     e     an     d
@@ -55,48 +35,49 @@ module.exports =   {
           "bars": 1, // ((1-16) * 8) - 1
           "notes"    : [
             {"start": 0, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 6, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 24, "midiNote": 40, "velocity": 127, "duration": 120},
-            {"start": 36, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 48, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 54, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 72, "midiNote": 40, "velocity": 127, "duration": 120}
+            {"start": 120, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 480, "midiNote": 40, "velocity": 127, "duration": 120},
+            {"start": 720, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 960, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 1080, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 1440, "midiNote": 40, "velocity": 127, "duration": 120}
           ]
         },
         {
           "bars": 1,
           "notes"    : [
             {"start": 0, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 6, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 12, "midiNote": 47, "velocity": 80, "duration": 500},
-            {"start": 24, "midiNote": 40, "velocity": 127, "duration": 120},
-            {"start": 24, "midiNote": 46, "velocity": 65, "duration": 120},
-            {"start": 36, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 48, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 54, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 60, "midiNote": 47, "velocity": 80, "duration": 120},
-            {"start": 72, "midiNote": 40, "velocity": 127, "duration": 120},
-            {"start": 72, "midiNote": 46, "velocity": 65, "duration": 120},
-            {"start": 84, "midiNote": 47, "velocity": 80, "duration": 120}
+            {"start": 120, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 240, "midiNote": 47, "velocity": 80, "duration": 500},
+            {"start": 480, "midiNote": 40, "velocity": 127, "duration": 120},
+            {"start": 480, "midiNote": 46, "velocity": 65, "duration": 120},
+            {"start": 720, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 960, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 1080, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 1200, "midiNote": 47, "velocity": 80, "duration": 120},
+            {"start": 1440, "midiNote": 40, "velocity": 127, "duration": 120},
+            {"start": 1440, "midiNote": 46, "velocity": 65, "duration": 120},
+            {"start": 1680, "midiNote": 47, "velocity": 80, "duration": 120}
           ]
         },
+
         {
           "bars": 1,
           "notes"    : [
             {"start": 0, "midiNote": 36, "velocity": 127, "duration": 120},
             {"start": 0, "midiNote": 46, "velocity": 65, "duration": 120},
-            {"start": 12, "midiNote": 46, "velocity": 80, "duration": 120},
-            {"start": 24, "midiNote": 40, "velocity": 127, "duration": 120},
-            {"start": 24, "midiNote": 46, "velocity": 65, "duration": 120},
-            {"start": 36, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 36, "midiNote": 46, "velocity": 80, "duration": 120},
-            {"start": 48, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 48, "midiNote": 46, "velocity": 80, "duration": 120},
-            {"start": 54, "midiNote": 36, "velocity": 127, "duration": 120},
-            {"start": 60, "midiNote": 46, "velocity": 80, "duration": 120},
-            {"start": 72, "midiNote": 40, "velocity": 127, "duration": 120},
-            {"start": 72, "midiNote": 46, "velocity": 65, "duration": 120},
-            {"start": 84, "midiNote": 46, "velocity": 80, "duration": 120}
+            {"start": 240, "midiNote": 46, "velocity": 80, "duration": 120},
+            {"start": 480, "midiNote": 40, "velocity": 127, "duration": 120},
+            {"start": 480, "midiNote": 46, "velocity": 65, "duration": 120},
+            {"start": 720, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 720, "midiNote": 46, "velocity": 80, "duration": 120},
+            {"start": 960, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 960, "midiNote": 46, "velocity": 80, "duration": 120},
+            {"start": 1080, "midiNote": 36, "velocity": 127, "duration": 120},
+            {"start": 1200, "midiNote": 46, "velocity": 80, "duration": 120},
+            {"start": 1440, "midiNote": 40, "velocity": 127, "duration": 120},
+            {"start": 1440, "midiNote": 46, "velocity": 65, "duration": 120},
+            {"start": 1680, "midiNote": 46, "velocity": 80, "duration": 120}
           ]
         }
       ]

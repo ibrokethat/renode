@@ -1,10 +1,13 @@
 /**
 
-  @module       Note
+  @module       NoteRenderer
   @description  switch the root of the note to be rendered
 
 */
+var midi    = require("../utils/midi");
 var partial = require("func").partial;
+var FRAMES  = midi.FRAMES;
+var bars;
 
 function resize (view, data) {
 
@@ -14,23 +17,23 @@ function resize (view, data) {
 
 function getRoot (root, model) {
 
-  return root.querySelector('div[data-midi-note="' + model.midiNote + '"]>div[data-step="' + model.start + '"]');
+  return root.querySelector('div[data-midi-note="' + model.midiNote + '"]');
 
 }
 
 function move (root, view, data) {
 
-  var step = getRoot(root, data.model);
-  step.appendChild(view);
-  position(step, view);
+  var note = getRoot(root, data.model);
+  note.appendChild(view);
+  position(note, view, data.model);
 
 }
 
 
-function position (step, view) {
+function position (note, view, model) {
 
-  view.style.top = step.offsetTop + "px";
-  view.style.left = step.offsetLeft + "px";
+  view.style.top = note.offsetTop + "px";
+  view.style.left = (note.clientWidth/100) * ((model.start/(bars * FRAMES)) * 100) + "px";
 
 }
 
@@ -38,6 +41,8 @@ exports.render = function (data) {
 
   var root = data.root;
   var view = data.view;
+
+  bars = parseInt(data.root.dataset.bars, 10);
 
   data.model.removeAllListeners("start");
   data.model.removeAllListeners("midiNote");
@@ -48,7 +53,7 @@ exports.render = function (data) {
   data.model.on("duration", partial(resize, view));
 
   data.root = getRoot(root, data.model);
-  position(data.root, view);
+  position(data.root, view, data.model);
 
   return data;
 

@@ -1,6 +1,6 @@
 /**
 
-  @module       models/SequencerModel
+  @module       models/SongModel
   @description  A data
 
 */
@@ -63,7 +63,7 @@ module.exports = Base.extend({
   },
 
   EDIT_EVENT: {
-    value: "edit-sequencer",
+    value: "edit-song",
     configurable: false
   },
 

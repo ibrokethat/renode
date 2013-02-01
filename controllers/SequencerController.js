@@ -12,16 +12,16 @@ var createInCollection   = controllers.createInCollection;
 var removeFromCollection = controllers.removeFromCollection;
 
 
-exports["click:play"] = partial(controller, function(e, sequencer) {
+exports["click:play"] = partial(controller, function(e, song) {
 
-  sequencer.play();
+  song.play();
 
 });
 
 
-exports["click:stop"] = partial(controller, function(e, sequencer) {
+exports["click:stop"] = partial(controller, function(e, song) {
 
-  sequencer.stop();
+  song.stop();
 
 });
 

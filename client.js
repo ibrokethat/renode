@@ -8,12 +8,11 @@ require("Object");
 var system         = require("system");
 var renderer       = require("renderer");
 var registry       = require("registry");
-var song       = require("./song");
-var SequencerModel = require("./models/SequencerModel");
+var SongModel      = require("./models/SongModel");
 var sequencerView  = require("./views/SequencerView.html");
 var renderView     = renderer.renderView;
 var clean          = renderer.clean;
-var sequencerModel;
+var song;
 
 var socket = io.connect("http://localhost");
 // var socket = io.connect('http://192.168.1.82');
@@ -21,19 +20,19 @@ var socket = io.connect("http://localhost");
 
 socket.on("connect", function () {
 
-  sequencerModel = null;
+  song = null;
 
 });
 
 socket.on("song/opened", function (data) {
 
-  sequencerModel = SequencerModel.spawn(data.song);
+  song = SongModel.spawn(data.song);
 
   renderView({
 
     root: document.body,
     view: sequencerView,
-    model: sequencerModel,
+    model: song,
     controller: null
 
   });

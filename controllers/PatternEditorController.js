@@ -9,19 +9,22 @@ var partial              = require("func").partial;
 var iter                 = require("iter");
 var Note                 = require("../models/NoteModel");
 var registry             = require("registry");
+var midi                 = require("../utils/midi");
 var controller           = controllers.controller;
 var createInCollection   = controllers.createInCollection;
 var removeFromCollection = controllers.removeFromCollection;
 var forEach              = iter.forEach;
 var indexOf              = iter.indexOf;
+var FRAMES               = midi.FRAMES;
 
-
+var bars;
 var notes = [];
 var nodes = []
 var modifiers = [];
 var currentNote = false;
 var dragTarget = false;
 var currentTarget = false;
+var mouseMovementX;
 
 function selectNote (note, node) {
 
@@ -59,7 +62,7 @@ function resetSelection () {
 
 function update (note, i) {
 
-  note.start = currentNote.start + modifiers[i].start;
+  note.start = Math.round(((bars * FRAMES)/100) * ((nodes[i].offsetLeft/nodes[i].parentNode.clientWidth) * 100));
   note.midiNote = currentNote.midiNote + modifiers[i].midiNote;
 
 }
@@ -68,16 +71,13 @@ function update (note, i) {
 function move (node, i) {
 
   node.style.top = currentTarget.offsetTop + modifiers[i].top + "px";
-  node.style.left = currentTarget.offsetLeft + modifiers[i].left + "px";
+  node.style.left = (node.offsetLeft + movementX) + "px";
 
 }
 
 function moveAll () {
 
   forEach(nodes, move);
-  if (dragTarget) {
-    window.requestAnimationFrame(moveAll);
-  }
 
 }
 
@@ -85,8 +85,8 @@ function moveAll () {
 function noteData (target) {
 
   return {
-    start: parseInt(target.dataset.step, 10),
-    midiNote: parseInt(target.parentNode.dataset.midiNote, 10)
+    start: target.offsetLeft,
+    midiNote: parseInt(target.dataset.midiNote, 10)
   }
 
 }
@@ -168,19 +168,18 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
 
     }
 
+    bars = pattern.bars;
 
     forEach(nodes, function (node, i) {
 
       modifiers[i] = {
         top:  (node.offsetTop - dragTarget.offsetTop),
         left: (node.offsetLeft - dragTarget.offsetLeft),
-        start: (notes[i].start - note.start),
+        start: (node.offsetLeft - note.start),
         midiNote: (notes[i].midiNote - note.midiNote)
       };
 
     });
-
-    window.requestAnimationFrame(moveAll);
 
   }
 
@@ -191,12 +190,21 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
 exports["mouseover"] = function (e) {
 
   if (!dragTarget) return;
-  if (!e.target.dataset.step) return;
-  if (currentTarget === e.target) return;
+  if (!e.target.dataset.midiNote) return;
 
   currentTarget = e.target;
 
 };
+
+
+exports["mousemove"] = function (e) {
+
+  if (!dragTarget) return;
+  movementX = e.webkitMovementX;
+  window.requestAnimationFrame(moveAll);
+
+};
+
 
 exports["mouseup"] = function (e) {
 

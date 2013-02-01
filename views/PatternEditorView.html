@@ -2,8 +2,9 @@
   class="pattern-editor"
   data-attr="id"
   data-controller="PatternEditorController"
-  data-has-many="notes"
   data-model="PatternModel"
   data-renderer="PatternEditorRenderer"
-  data-view="NoteView"
-></div>
+>
+  <div class="pattern-controls"></div>
+  <div class="piano-roll" data-attr="bars" data-has-many="notes" data-view="NoteView"></div>
+</div>

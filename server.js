@@ -12,7 +12,7 @@ var http              = require("http");
 var events            = require("events");
 var nodeStatic        = require("node-static");
 var socket            = require("socket.io");
-var SequencerModel    = require("./models/SequencerModel");
+var SongModel         = require("./models/SongModel");
 var sequencerCommands = require("./commands/sequencer");
 var song              = require("./song");
 var system            = require("system");
@@ -49,9 +49,8 @@ server.listen(8088);
 
 console.info("> renode ui: http://127.0.0.1:8088");
 
-sequencer = SequencerModel.spawn(song);
-sequencerCommands.load(sequencer);
-sequencer.play();
+song = SongModel.spawn(song);
+sequencerCommands.load(song);
 
 
 //  set up the socket
@@ -60,7 +59,7 @@ io = socket.listen(server);
 io.sockets.on("connection", function (socket) {
 
   socket.emit("song/opened", {
-    song: sequencer.serialise(true)
+    song: song.serialise(true)
   });
 
   socket.on("sync", function(data) {

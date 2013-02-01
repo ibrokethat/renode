@@ -31,11 +31,6 @@ module.exports = Base.extend({
         defaultValue : "stopped",
         sync         : true,
         type         : "string"
-      },
-
-      steps: {
-        defaultValue: [],
-        type: "array"
       }
 
     }

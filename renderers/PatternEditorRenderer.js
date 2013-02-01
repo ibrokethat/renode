@@ -18,6 +18,7 @@ exports.render = function (data) {
   forEach(midiNotes, function (midiNote) {
 
     note = document.createElement("div");
+    note.dataset.action = "create-note";
     note.dataset.midiNote = midiNote.midiNote;
     note.dataset.note = midiNote.note;
     note.className = /b$/.test(midiNote.note) ? "semi" : "whole";

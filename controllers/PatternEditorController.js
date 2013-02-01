@@ -63,7 +63,7 @@ function resetSelection () {
 function update (note, i) {
 
   note.start = Math.round(((bars * FRAMES)/100) * ((nodes[i].offsetLeft/nodes[i].parentNode.clientWidth) * 100));
-  note.midiNote = currentNote.midiNote + modifiers[i].midiNote;
+  note.midiNote = currentNote + modifiers[i].midiNote;
 
 }
 
@@ -84,17 +84,16 @@ function moveAll () {
 
 function noteData (target) {
 
-  return {
-    start: target.offsetLeft,
-    midiNote: parseInt(target.dataset.midiNote, 10)
-  }
+  return parseInt(target.dataset.midiNote, 10);
 
 }
 
 function initNoteData (e) {
 
-  return noteData(e.delegateTarget || e.target);
-
+  return {
+    start: Math.round(((bars * FRAMES)/100) * ((e.clientX/e.target.clientWidth) * 100)),
+    midiNote: noteData(e.delegateTarget || e.target)
+  }
 }
 
 
@@ -127,6 +126,7 @@ exports["click"] = partial(controller, function (e, pattern, note) {
 
   if (action === "create-note") {
 
+    bars = pattern.bars;
     createInCollection(Note, "notes", initNoteData, e, pattern);
 
   }
@@ -174,11 +174,10 @@ exports["mousedown:select"] = partial(controller, function (e, pattern, note) {
 
       modifiers[i] = {
         top:  (node.offsetTop - dragTarget.offsetTop),
-        left: (node.offsetLeft - dragTarget.offsetLeft),
-        start: (node.offsetLeft - note.start),
+        // left: (node.offsetLeft - dragTarget.offsetLeft),
+        // start: (node.offsetLeft - note.start),
         midiNote: (notes[i].midiNote - note.midiNote)
       };
-
     });
 
   }

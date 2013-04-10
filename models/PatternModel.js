@@ -90,3 +90,18 @@ module.exports = Base.extend({
 
 
 
+// forEach(["playing", "pending", "stopped"], function (state) {
+
+//   properties[state] = {
+//     defaultValue: false,
+//     type: boolean
+//     set: function (value) {
+//       if (!value) throw Error.spawn("");
+//       this.state = state;
+//     },
+//     get: function () {
+//       return (this.state === state);
+//     }
+//   }
+
+// }

@@ -1,7 +1,33 @@
-<div class="track" data-model="TrackModel" data-controller="TrackController" data-attr="id">
+<div
+  class="track"
+  data-attr="id"
+  data-controller="TrackController"
+  data-model="TrackModel"
+>
   <header>
     <h1 data-inner="title"></h1>
   </header>
-  <a data-action="create-pattern">+</a>
+  <div class="controls">
+    <a data-action="create-pattern">+</a>
+    <select data-repeat="channels">
+      <option ></option>
+    </select>
+  </div>
   <div data-has-many="patterns" data-view="PatternView"></div>
 </div>
+
+
+<!--
+function selectController (e, model) {
+
+  model[e.delegateTarget.dataset.optionValue] = e.delegateTarget.value;
+
+});
+
+
+exports["change:select-midi-channel"] = partial(controller, selectController);
+
+make it data-text="title"
+
+somehow add custom renderers for lib u components
+ -->

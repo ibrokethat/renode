@@ -7,7 +7,9 @@
 */
 var Base         = require("Base");
 var PatternModel = require("./PatternModel");
-
+var midiUtils    = require("../utils/midi");
+var channels     = midiUtils.channels;
+var getChannel   = midiUtils.getChannel;
 
 module.exports = Base.extend({
 
@@ -26,11 +28,19 @@ module.exports = Base.extend({
       },
 
       midiOn: {
-        type: "number"
+        type: "number",
+        sync: true
       },
 
       midiOff: {
-        type: "number"
+        type: "number",
+        sync: true,
+        on : {
+          midiOn: function (value) {
+            var v = getChannel(value).midiOff;
+            // this.midiOff = getChannel(value).midiOff;
+          }
+        }
       },
 
       activePatternId: {
@@ -63,6 +73,12 @@ module.exports = Base.extend({
 
   EDIT_EVENT: {
     value: "edit-track",
+    configurable: false
+  },
+
+
+  channels: {
+    value: channels,
     configurable: false
   }
 

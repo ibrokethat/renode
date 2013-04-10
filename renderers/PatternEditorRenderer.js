@@ -5,9 +5,9 @@
 
 */
 var iter      = require("iter");
-var midi      = require("../utils/midi");
+var midiUtils = require("../utils/midi");
 var forEach   = iter.forEach;
-var midiNotes = midi.midiNotes;
+var midiNotes = midiUtils.midiNotes;
 
 
 exports.render = function (data) {

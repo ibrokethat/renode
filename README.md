@@ -2,15 +2,6 @@ todo:
 
 sequencer
 
-move notes into steps on pattern load into sequencer
-
-where steps are arrays of note ids
-
-have a step to note hash keyed by id, so you know which step a note is then in
-
-have patterns watch for note start changes - mapped by id
-
-have a routine that moves note id into new step from old, and updates hash
 
 
 
@@ -20,9 +11,18 @@ models
 update the state flags to watch all states, a certain state is then activated by = true
 
 
-pattern editor controller
+pattern editor view
 
 add colgroups and cols to display grid lines
+
+buttons to activate the following states
+
+select - all actions select notes afterwards - clears all previously selected
+move - touch/mousemove moves all selected
+write - create new or edit existing duration
+delete - removes all selected, or if none selected, deletes those clicked on
+
+
 
 
 
@@ -47,3 +47,4 @@ integrate into grunt as tasks
 window system
 
 add window system based upon css
+
